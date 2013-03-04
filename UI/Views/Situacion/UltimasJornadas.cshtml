@@ -1,0 +1,19 @@
+﻿@model Acheve.UI.ViewModels.JornadaNoIniciadaViewModel
+
+<ul class="nav nav-list">
+    <li class="nav-header">Últimas 5 jornadas registradas</li>
+    @if (Model.UltimasJornadasRegistradas.Any())
+    {
+        foreach (var jornada in Model.UltimasJornadasRegistradas)
+        {
+        <li>@using (Html.BeginForm("Dia", "Informe", new { fecha = jornada.ToShortDateString() }, FormMethod.Post, new { style = "margin-bottom:0" }))
+            {
+            <input class="btn-link" type="submit" value="@jornada.ToShortDateString()"/>
+            }</li>
+        }
+    }
+    else
+    {
+        <p>No se han encontrado jornadas registradas</p>
+    }
+</ul>

@@ -1,0 +1,49 @@
+﻿@model Acheve.UI.ViewModels.JornadaViewModel
+
+@{
+    ViewBag.Title = "Situación actual";
+}
+
+<ul class="breadcrumb">
+    <li class="active">Situación actual</li>
+</ul>
+
+<div class="row">
+    <div class="span6">
+        @if (string.IsNullOrWhiteSpace(Model.Error) == false)
+        {
+            <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                @Model.Error
+            </div>    
+        }
+
+        @if (Model.Jornada.EstaIniciado)
+        {
+            if (Model.Jornada.PausaIniciada != null)
+            {
+                Html.RenderPartial("_JornadaIniciadaPausaIniciada", Model);
+            }
+            else
+            {
+                Html.RenderPartial("_JornadaIniciadaPausaNoIniciada", Model);
+            }
+        }
+        else
+        {
+            Html.RenderPartial("_JornadaNoIniciada");
+        }
+    </div>
+    <div class="span4">
+        @{Html.RenderAction("UltimasJornadas");}
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var my = my || {};
+
+        my.marcarMenu('#menSituacion');
+    </script>
+}

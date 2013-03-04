@@ -1,0 +1,112 @@
+﻿@model Acheve.UI.ViewModels.InformeJornadaViewModel
+
+@{
+    ViewBag.Title = "Resumen del día " + Model.Fecha.ToShortDateString();
+}
+
+<ul class="breadcrumb">
+    <li class="active">Resúmenes <span class="divider">/</span></li>
+    <li class="active">Resumen del día @Model.Fecha.ToShortDateString()</li>
+</ul>
+
+@using (Html.BeginForm("Dia", "Informe", new { area = string.Empty }, FormMethod.Post, new { @class = "form-inline" }))
+{
+    <fieldset>
+        <legend>Seleccione el día</legend>
+        <div>
+            @Html.LabelFor(m => m.Fecha)
+            @Html.EditorFor(m => m.Fecha)
+            <input class="btn btn-primary" type="submit" value="Ver" />
+        </div>
+    </fieldset>
+}
+
+@if (Model.IsPost)
+{
+    if (Model.Jornada.IsNull == false)
+    {
+        if (Model.Jornada.EstaIniciado)
+        {
+    <p>La jornada del día <strong>@Model.Fecha.ToShortDateString()</strong> no ha finalizado.</p>
+    <p>Sólo se pueden ver los resumenes de jornadas finalizadas</p>
+        }
+        else
+        {
+    <div>
+        <strong>Inicio: </strong><span>@Model.Jornada.Inicio.ToString("dddd dd 'de' MMMM  'del' yyyy 'a las' HH:mm")</span>
+    </div>
+    <div>
+        <strong>Fin: </strong><span>@Model.Jornada.Fin.Value.ToString("dddd dd 'de' MMMM  'del' yyyy 'a las' HH:mm")</span>
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            @if (Model.Jornada.Pausas.Any())
+            {
+                <table class="table table-striped table-hover table-condensed">
+                    <caption>Pausas</caption>
+                    <thead>
+                        <tr>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Duración (h:mm:ss)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pausa in Model.Jornada.Pausas)
+                        {
+                            <tr>
+                                <td>@pausa.Inicio.ToLongTimeString()</td>
+                                <td>@pausa.Fin.Value.ToLongTimeString()</td>
+                                <td>@pausa.Duracion.ToString(@"hh\:mm\:ss")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p style="margin-top: 30px;">No se han registrado pausas en esta jornada.</p>
+            }
+        </div>
+        <div class="span4">
+            <table class="table table-striped table-hover table-condensed">
+                <caption>Resumen del día</caption>
+                <thead>
+                    <tr>
+                        <th>Resumen</th>
+                        <th>Duración (h:mm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Suma tiempo trabajado</td>
+                        <td>@Model.SumaTrabajo.ToString(@"hh\:mm")</td>
+                    </tr>
+                    <tr>
+                        <td>Suma tiempo pausas</td>
+                        <td>@Model.SumaPausa.ToString(@"hh\:mm")</td>
+                    </tr>
+                    <tr>
+                        <td>Total jornada</td>
+                        <td>@Model.Total.ToString(@"hh\:mm")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        }
+    }
+    else
+    {
+    <p>No se ha encontrado ninguna información para el día <strong>@Model.Fecha.ToShortDateString()</strong>.</p>
+    }
+}
+@section scripts
+{
+    <script type="text/javascript">
+        var my = my || {};
+
+        my.marcarMenu('#menDiario');
+    </script>
+}

@@ -1,0 +1,54 @@
+﻿@using Acheve.UI.App_Start
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acheve - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <a class="brand" href="@Url.Action("Actual", "Situacion", new { area = string.Empty })">Acheve - Control de presencia</a>
+            <div class="btn-group pull-right">
+                <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-user icon-white"></i>&nbsp;@User.Identity.Name <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Salir", "LogOff", "Cuenta", new { area = string.Empty }, null)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="menu" class="span2">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Menu</li>
+                    <li id="menSituacion"><a href="@Url.Action("Actual", "Situacion", new { area = string.Empty })">Situación actual</a></li>
+                    <li id="menDiario"><a href="@Url.Action("Dia", "Informe", new { area = string.Empty })">Informe diario</a></li>
+                    <li id="menFechas"><a href="@Url.Action("EntreFechas", "Informe", new { area = string.Empty })">Resumene entre fechas</a></li>
+                </ul>
+                @if (FluentSecurity.SecurityContext.Current.CurrentUserRoles().Contains(SecurityConfig.Roles.RecurosHumanos))
+                {
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Administración</li>
+                        <li id="menAdminBuscar"><a href="@Url.Action("Index", "Buscar", new { area = "Admin" })">Mantenimiento</a></li>
+                        <li id="menAdminDiario"><a href="@Url.Action("Dia", "Informe", new { area = "Admin" })">Informe diario</a></li>
+                        <li id="menAdminFechas"><a href="@Url.Action("EntreFechas", "Informe", new { area = "Admin" })">Resumen entre fechas</a></li>
+                    </ul>
+                }
+            </div>
+            <div class="span10">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/app/common")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

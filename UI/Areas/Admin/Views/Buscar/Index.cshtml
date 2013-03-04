@@ -1,0 +1,109 @@
+﻿@model Acheve.UI.Areas.Admin.ViewModels.BuscarJornadasViewModel
+
+@{
+    ViewBag.Title = "Administración - Mantenimiento";
+}
+
+<ul class="breadcrumb">
+    <li class="active">Administración<span class="divider">/</span></li>
+    <li class="active">Mantenimiento</li>
+</ul>
+
+@using (Html.BeginForm("Index", "Buscar", new { area = "Admin" }, FormMethod.Post, new { @class = "form-inline" }))
+{
+    <fieldset>
+        <legend>Seleccione el usuario y intervalo de fechas</legend>
+        @Html.LabelFor(m => m.Usuario)
+        @Html.DropDownListFor(m => m.Usuario, new SelectList(Model.Usuarios, Model.Usuario))
+        @Html.LabelFor(m => m.Inicio)
+        @Html.EditorFor(m => m.Inicio, "DateFrom")
+        @Html.ValidationMessageFor(m => m.Inicio)
+        @Html.LabelFor(m => m.Fin)
+        @Html.EditorFor(m => m.Fin, "DateTo")
+        <input id="btnBuscar" class="btn btn-primary" type="submit" value="Buscar" />
+    </fieldset>
+}
+
+@if (Model.IsPost)
+{
+    <div class="row">
+        <div class="span8">
+            <table class="table table-striped table-hover table-condensed">
+                <caption>Jornadas entre el @Model.Inicio.ToShortDateString() y el @Model.Fin.ToShortDateString() del usuario @Model.Usuario</caption>
+                <thead>
+                    <tr>
+                        <th>Jornada</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var jornada in Model.Jornadas)
+                    {
+                        <tr>
+                            <td><strong>@jornada.Dia.ToShortDateString()</strong></td>
+                            @if (jornada.Existe)
+                            {
+                                <td>
+                                    @using (Html.BeginForm("Dia", "Informe", new { usuario = Model.Usuario, fecha = jornada.Dia.ToShortDateString() }, FormMethod.Post, new { style = "display: inline;" }))
+                                    {
+                                        <input class="btn btn-primary" type="submit" value="Ver detalle" />
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn" href="@Url.Action("Editar", "Jornada", new { usuario = Model.Usuario, fecha = jornada.Dia.ToShortDateString() })">Editar</a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary disabled">Crear</button>
+                                </td>
+                                <td>
+                                    <input class="btn btn-danger eliminar" type="submit" value="Eliminar" data-usuario="@Model.Usuario" data-fecha="@jornada.Dia.ToShortDateString()" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <button class="btn btn-primary disabled">Ver detalle</button></td>
+                                <td>
+                                    <button class="btn disabled">Editar</button></td>
+                                <td>
+                                    <a class="btn btn-primary" href="@Url.Action("Crear", "Jornada", new { usuario = Model.Usuario, fecha = jornada.Dia.ToShortDateString() })">Crear</a></td>
+                                <td>
+                                    <button class="btn btn-danger disabled">Eliminar</button></td>
+                            }
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="span2">
+            @using (Html.BeginForm("EntreFechas", "Informe", new { usuario = Model.Usuario, inicio = Model.Inicio.ToShortDateString(), fin = Model.Fin.ToShortDateString() }))
+            {
+                <input class="btn btn-primary" type="submit" value="Ver resumen de horas" style="margin-top: 30px;" />
+            }
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        var my = my || {};
+        my.data = my.data || {};
+
+        my.marcarMenu('#menAdminBuscar');
+
+        my.data.delete = function (json, callback) {
+            my.data.ajaxPostJson(
+                "@Url.Action("Eliminar", "Jornada")",
+                json,
+                callback);
+        };
+
+    </script>
+
+    <script src="~/Scripts/App/index.js"></script>
+}

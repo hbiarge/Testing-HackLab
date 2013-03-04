@@ -1,0 +1,76 @@
+﻿@model Acheve.UI.Areas.Admin.ViewModels.InformeResumenEntreFechasViewModel
+
+@{
+    ViewBag.Title = "Administración - Resumen entre fechas";
+}
+
+<style type="text/css">
+    .descarga {
+        margin: 5px;
+    }
+</style>
+
+<ul class="breadcrumb">
+    <li class="active">Administración<span class="divider">/</span></li>
+    <li class="active">Resumen entre fechas</li>
+</ul>
+
+@using (Html.BeginForm("EntreFechas", "Informe", new { area = "Admin" }, FormMethod.Post, new { @class = "form-inline" }))
+{
+    <fieldset>
+        <legend>Seleccione el usuario y intervalo de fechas</legend>
+        @Html.LabelFor(m => m.Usuario)
+        @Html.DropDownListFor(m => m.Usuario, new SelectList(Model.Usuarios, Model.Usuario))
+        @Html.LabelFor(m => m.Inicio)
+        @Html.EditorFor(m => m.Inicio, "DateFrom")
+        @Html.LabelFor(m => m.Fin)
+        @Html.EditorFor(m => m.Fin, "DateTo")
+        <input class="btn btn-primary" type="submit" value="Ver" />
+    </fieldset>
+}
+@if (Model.IsPost)
+{
+    <div class="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        Sólo se incluyen las jornadas terminadas.
+    </div>
+    
+    if (Model.ResumenJornadas.Any())
+    {
+    <table class="table table-striped table-hover table-condensed">
+        <caption>Resumen de jornadas entre el @Model.Inicio.ToShortDateString() y el @Model.Fin.ToShortDateString() del usuario @Model.Usuario</caption>
+        <thead>
+            <tr>
+                <th>Jornada</th>
+                <th>Trabajo (h:mm)</th>
+                <th>Pausa (h:mm)</th>
+                <th>Total (h:mm)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var resumen in Model.ResumenJornadas)
+            {
+                <tr>
+                    <td>@resumen.Dia.ToShortDateString()</td>
+                    <td>@resumen.Trabajo.ToString(@"hh\:mm")</td>
+                    <td>@resumen.Pausa.ToString(@"hh\:mm")</td>
+                    <td>@resumen.Total.ToString(@"hh\:mm")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    else
+    {
+    <p>No se han encontrado registros para el usuario <strong>@Model.Usuario</strong> entre los días <strong>@Model.Inicio.ToShortDateString()</strong> y <strong>@Model.Fin.ToShortDateString()</strong>.</p>
+    }
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        var my = my || {};
+
+        my.marcarMenu('#menAdminFechas');
+    </script>
+}

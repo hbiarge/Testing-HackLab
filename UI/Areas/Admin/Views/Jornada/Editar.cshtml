@@ -1,0 +1,107 @@
+﻿@using Acheve.UI.Infrastructure
+@using Newtonsoft.Json
+@model Acheve.UI.Areas.Admin.ViewModels.JornadaViewModel
+
+@{
+    ViewBag.Title = "Editar";
+}
+
+<ul class="breadcrumb">
+    <li class="active">Administración<span class="divider">/</span></li>
+    <li><a id="mantenimiento" href="#">Mantenimiento</a><span class="divider">/</span></li>
+    <li class="active">Editar</li>
+</ul>
+
+
+<form>
+    <fieldset>
+        <legend>Editando la jornada @Model.Dia del usuario @Model.Usuario</legend>
+        <div class="row">
+            <div class="span12" data-bind="visible: tieneErrores">
+                <div class="alert alert-error">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4>¡Atención!</h4>
+                    <p>Se han encontrado los siguientes errores:</p>
+                    <ul data-bind="foreach: errores">
+                        <li><strong data-bind="text: Key"></strong>&nbsp;<span data-bind="text: ErrorMessage"></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span8">
+                <div class="control-group">
+                    <label class="control-label">Inicio jornada: </label>
+                    <div class="controls">
+                        <input type="datetime" class="datetime input-medium" data-bind="value: inicio" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Fin jornada: </label>
+                    <div class="controls">
+                        <input type="date" class="datetime input-medium" data-bind="value: fin" />
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div>
+                    <button class="btn btn-primary" data-bind="click: saveJornada">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span8">
+                <table class="table table-striped table-hover table-condensed">
+                    <caption>Pausas</caption>
+                    <thead>
+                        <tr>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: pausas">
+                        <tr>
+                            <td>
+                                <input type="datetime" class="datetime input-medium" data-bind="value: inicio" /></td>
+                            <td>
+                                <input type="datetime" class="datetime input-medium" data-bind="value: fin" /></td>
+                            <td>
+                                <button class="btn btn-danger" data-bind="click: $root.removePausa">Eliminar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="span2" style="margin-top: 30px;">
+                <button class="btn btn-primary" data-bind="click: addPausa">Añadir pausa</button>
+            </div>
+        </div>
+
+    </fieldset>
+</form>
+
+@section scripts
+{
+    <script src="~/Scripts/knockout-2.2.1.js"></script>
+    <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript">
+
+        var my = my || {};
+        my.data = my.data || {};
+
+        my.marcarMenu('#menAdminBuscar');
+
+        my.data.save = function (json, callback) {
+            my.data.ajaxPostJson(
+                "@Url.Action("Editar", "Jornada")",
+            json,
+            callback);
+        };
+
+        my.data.viewModel = @(Html.Raw(JsonConvert.SerializeObject(this.Model, JsonSettings.FormattingSettings)));
+
+    </script>
+
+    <script src="~/Scripts/App/jornada.js"></script>
+}
