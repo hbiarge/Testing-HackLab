@@ -13,6 +13,8 @@ namespace Acheve.UI.Infrastructure
     using System.Linq;
     using System.Web.Mvc;
 
+    using Acheve.UI.ViewModels;
+
     public static class ModelStateExtensions
     {
         public static IEnumerable<Error> GetValidationErrors(this ModelStateDictionary modelState)

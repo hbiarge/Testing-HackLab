@@ -15,6 +15,10 @@ namespace Acheve.UI.Areas.Admin.Controllers
     using Acheve.Data.Services.Contracts;
     using Acheve.UI.Areas.Admin.ViewModels;
     using Acheve.UI.Infrastructure;
+    using Acheve.UI.ViewModels;
+
+    using CriteriosBusquedaFechaViewModel = Acheve.UI.Areas.Admin.ViewModels.CriteriosBusquedaFechaViewModel;
+    using JornadaViewModel = Acheve.UI.Areas.Admin.ViewModels.JornadaViewModel;
 
     public class JornadaController : Controller
     {

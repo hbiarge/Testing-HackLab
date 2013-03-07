@@ -19,9 +19,11 @@ namespace Acheve.Data.Services.PetaPoco
 
     using global::PetaPoco;
 
-    public class PetaPocoJornadaQueries : IJornadaQueries
+    public class PetaPocoJornadaQueries : IJornadaQueries, IDisposable
     {
         private readonly IDatabase database;
+
+        private bool disposed;
 
         public PetaPocoJornadaQueries(IDatabase database)
         {
@@ -132,6 +134,26 @@ namespace Acheve.Data.Services.PetaPoco
             for (var dia = inicio.Date; dia <= fin.Date; dia = dia.AddDays(1))
             {
                 yield return new JornadaInfo { Dia = dia, Existe = jornadasEnElRangoDeFechas.Contains(dia) };
+            }
+        }
+
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.database.Dispose();
             }
         }
     }

@@ -72,21 +72,21 @@ namespace Acheve.UI.UnitTests.Security
 
                 // Buscar controller
                 expectations.Expect<BuscarController>(x => x.Index())
-                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.RecurosHumanos));
+                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.Jefe));
 
                 // Informe controller
                 expectations.Expect<Acheve.UI.Areas.Admin.Controllers.InformeController>(x => x.Dia())
-                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.RecurosHumanos));
+                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.Jefe));
                 expectations.Expect<Acheve.UI.Areas.Admin.Controllers.InformeController>(x => x.EntreFechas())
-                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.RecurosHumanos));
+                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.Jefe));
 
                 // Jornada controller
                 expectations.Expect<JornadaController>(x => x.Editar(new CriteriosBusquedaFechaViewModel()))
-                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.RecurosHumanos));
+                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.Jefe));
                 expectations.Expect<JornadaController>(x => x.Crear(new CriteriosBusquedaFechaViewModel()))
-                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.RecurosHumanos));
+                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.Jefe));
                 expectations.Expect<JornadaController>(x => x.Eliminar(new CriteriosBusquedaFechaViewModel()))
-                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.RecurosHumanos));
+                    .Has<RequireAnyRolePolicy>(p => p.RolesRequired.Contains(SecurityConfig.Roles.Jefe));
             }).ToArray();
 
             // Assert

@@ -13,5 +13,9 @@ namespace Acheve.Data.Services.Contracts
     public interface IUsuariosQueries
     {
         IEnumerable<string> ObtenerUsuarios();
+
+        bool EsUsuarioValido(string nombre, string password);
+
+        IEnumerable<string> ObtenerRolesDeUsuario(string username);
     }
 }

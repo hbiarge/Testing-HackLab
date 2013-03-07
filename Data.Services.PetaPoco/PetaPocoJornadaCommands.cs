@@ -22,6 +22,8 @@ namespace Acheve.Data.Services.PetaPoco
     {
         private readonly IDatabase database;
 
+        private bool disposed;
+
         public PetaPocoJornadaCommands(IDatabase database)
         {
             if (database == null)
@@ -112,6 +114,25 @@ namespace Acheve.Data.Services.PetaPoco
                 this.database.Execute("DELETE FROM Jornadas WHERE IdJornada = @0", idJornada);
 
                 transaction.Complete();
+            }
+        }
+
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.database.Dispose();
             }
         }
     }

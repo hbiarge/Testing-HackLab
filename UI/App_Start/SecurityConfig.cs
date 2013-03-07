@@ -5,7 +5,8 @@
 
     using Acheve.UI.Areas.Admin.Controllers;
     using Acheve.UI.Controllers;
-    
+    using Acheve.UI.Infrastructure.Security;
+
     using FluentSecurity;
     using FluentSecurity.Caching;
 
@@ -21,7 +22,7 @@
 
                 // Configuración real
                 configuration.GetAuthenticationStatusFrom(() => HttpContext.Current.User.Identity.IsAuthenticated);
-                //configuration.GetRolesFrom(() => ActiveDirectoryRoleHelper.GetUserRoles(HttpContext.Current.User.Identity.Name));
+                configuration.GetRolesFrom(() => RoleHelper.GetRolesForUser(HttpContext.Current.User.Identity.Name));
 
                 configuration.Advanced.SetDefaultResultsCacheLifecycle(Cache.PerHttpSession);
 
@@ -30,14 +31,14 @@
                     .Ignore();
                 configuration.For<CuentaController>(x => x.LogOff())
                     .DenyAnonymousAccess();
-                configuration.For<global::Acheve.UI.Controllers.InformeController>()
+                configuration.For<Controllers.InformeController>()
                     .DenyAnonymousAccess();
                 configuration.For<SituacionController>()
                     .DenyAnonymousAccess();
 
                 // Configuración de las páginas de administración
                 configuration.ForAllControllersInNamespaceContainingType<BuscarController>()
-                    .RequireAnyRole(Roles.RecurosHumanos);
+                    .RequireAnyRole(Roles.Jefe);
             });
 
             GlobalFilters.Filters.Add(new HandleSecurityAttribute(), 0);
@@ -45,7 +46,7 @@
 
         public static class Roles
         {
-            public const string RecurosHumanos = "RRHH1";
+            public const string Jefe = "JEFE";
         }
     }
 }

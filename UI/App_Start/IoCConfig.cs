@@ -16,6 +16,7 @@ namespace Acheve.UI.App_Start
 
     using FluentSecurity;
 
+    using Microsoft.Practices.ServiceLocation;
     using Microsoft.Practices.Unity;
 
     using Unity.Mvc4;
@@ -32,6 +33,7 @@ namespace Acheve.UI.App_Start
 
             IoC.Configure(container);
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+            ServiceLocator.SetLocatorProvider(() => new UnityServiceLocator(container));
 
             return container;
         }

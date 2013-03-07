@@ -25,5 +25,15 @@ namespace Acheve.Data.Services.Contracts.Fakes
         {
             return Usuarios;
         }
+
+        public bool EsUsuarioValido(string nombre, string password)
+        {
+            return !string.IsNullOrEmpty(nombre);
+        }
+
+        public IEnumerable<string> ObtenerRolesDeUsuario(string username)
+        {
+            return new[] { "JEFE" };
+        }
     }
 }

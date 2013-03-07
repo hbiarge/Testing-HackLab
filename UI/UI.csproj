@@ -165,14 +165,16 @@
     </Compile>
     <Compile Include="Infrastructure\ActionResults\JsonNetResult.cs" />
     <Compile Include="Infrastructure\ModelStateExtensions.cs" />
-    <Compile Include="Infrastructure\Error.cs" />
     <Compile Include="Infrastructure\FluentSecurityViolationHandlers\DenyAnonymousAccessPolicyViolationHandler.cs" />
     <Compile Include="Infrastructure\FluentSecurityViolationHandlers\RequireRolePolicyViolationHandler.cs" />
     <Compile Include="Infrastructure\JsonSettings.cs" />
     <Compile Include="Infrastructure\MinorThanAttribute.cs" />
     <Compile Include="Infrastructure\Constantes.cs" />
     <Compile Include="Infrastructure\LocaleDateTimeBinder.cs" />
+    <Compile Include="Infrastructure\Security\CustomMembershipProvider.cs" />
+    <Compile Include="Infrastructure\Security\RoleHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Error.cs" />
     <Compile Include="ViewModels\LogOnModel.cs" />
     <Compile Include="ViewModels\CriteriosBusquedaEntreFechasViewModel.cs" />
     <Compile Include="ViewModels\CriteriosBusquedaFechaViewModel.cs" />

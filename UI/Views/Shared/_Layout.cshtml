@@ -30,7 +30,7 @@
                     <li id="menDiario"><a href="@Url.Action("Dia", "Informe", new { area = string.Empty })">Informe diario</a></li>
                     <li id="menFechas"><a href="@Url.Action("EntreFechas", "Informe", new { area = string.Empty })">Resumene entre fechas</a></li>
                 </ul>
-                @if (FluentSecurity.SecurityContext.Current.CurrentUserRoles().Contains(SecurityConfig.Roles.RecurosHumanos))
+                @if (FluentSecurity.SecurityContext.Current.CurrentUserRoles().Contains(SecurityConfig.Roles.Jefe))
                 {
                     <ul class="nav nav-list">
                         <li class="nav-header">Administración</li>
