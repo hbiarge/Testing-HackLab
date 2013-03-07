@@ -19,15 +19,20 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
 
     public class PetaPocoUsuariosQueriesTests
     {
+        public PetaPocoUsuariosQueriesTests()
+        {
+            DatabaseHelper.RestartTestDatabase();
+        }
+
         [Fact]
         public void ObtenerUsuariosRecuperaLosUsuariosUnicos()
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoUsuariosQueries(database);
 
             var usuarios = sut.ObtenerUsuarios();
 
-            usuarios.Should().Contain("Hugo");
+            usuarios.Should().Contain(DatabaseHelper.Usuario);
         }
     }
 }

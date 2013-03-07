@@ -36,16 +36,21 @@ namespace Acheve.Data.Services.PetaPoco
         {
             var jornadaDbRow = JornadaDbRow.FromJornada(jornada, usuario);
 
-            this.database.Insert("Jornadas", "IdJornada", true, jornadaDbRow);
-            jornada.Id = jornadaDbRow.IdJornada;
-
-            var pausas = jornada.Pausas.Zip(jornadaDbRow.Pausas, (p, pdb) => new { Pausa = p, PausaDbRow = pdb });
-
-            foreach (var pausa in pausas)
+            using (var transaction = this.database.GetTransaction())
             {
-                pausa.PausaDbRow.IdJornada = jornadaDbRow.IdJornada;
-                this.database.Insert("Pausas", "IdPausa", true, pausa.PausaDbRow);
-                pausa.Pausa.Id = pausa.PausaDbRow.IdPausa;
+                this.database.Insert("Jornadas", "IdJornada", true, jornadaDbRow);
+                jornada.Id = jornadaDbRow.IdJornada;
+
+                var pausas = jornada.Pausas.Zip(jornadaDbRow.Pausas, (p, pdb) => new { Pausa = p, PausaDbRow = pdb });
+
+                foreach (var pausa in pausas)
+                {
+                    pausa.PausaDbRow.IdJornada = jornadaDbRow.IdJornada;
+                    this.database.Insert("Pausas", "IdPausa", true, pausa.PausaDbRow);
+                    pausa.Pausa.Id = pausa.PausaDbRow.IdPausa;
+                }
+
+                transaction.Complete();
             }
         }
 
@@ -101,8 +106,13 @@ namespace Acheve.Data.Services.PetaPoco
 
         public void EliminarJornada(int idJornada)
         {
-            this.database.Execute("DELETE FROM Pausas WHERE IdJornada = @0", idJornada);
-            this.database.Execute("DELETE FROM Jornadas WHERE IdJornada = @0", idJornada);
+            using (var transaction = this.database.GetTransaction())
+            {
+                this.database.Execute("DELETE FROM Pausas WHERE IdJornada = @0", idJornada);
+                this.database.Execute("DELETE FROM Jornadas WHERE IdJornada = @0", idJornada);
+
+                transaction.Complete();
+            }
         }
     }
 }

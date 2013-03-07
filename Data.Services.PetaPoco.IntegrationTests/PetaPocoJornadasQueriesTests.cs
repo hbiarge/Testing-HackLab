@@ -22,39 +22,42 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
 
     public class PetaPocoJornadasQueriesTests
     {
-        private const string Usuario = "Hugo";
+        public PetaPocoJornadasQueriesTests()
+        {
+            DatabaseHelper.RestartTestDatabase();
+        }
 
         [Fact]
         public void ObtenerUltimaJornada()
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoJornadaQueries(database);
 
-            var ultimaJornada = sut.ObtenerUltimaJornada(Usuario);
+            var ultimaJornada = sut.ObtenerUltimaJornada(DatabaseHelper.Usuario);
 
-            ultimaJornada.Should().NotBeNull();
+            ultimaJornada.IsNull.Should().BeFalse();
         }
 
         [Fact]
         public void ObtenerJornada()
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoJornadaQueries(database);
-            var fecha = new DateTime(2013, 2, 16);
+            var fecha = DateTime.Today.AddDays(-1);
 
-            var ultimaJornada = sut.ObtenerJornada(Usuario, fecha);
+            var ultimaJornada = sut.ObtenerJornada(DatabaseHelper.Usuario, fecha);
 
-            ultimaJornada.Should().NotBeNull();
+            ultimaJornada.IsNull.Should().BeFalse();
         }
 
         [Fact]
         public void ObtenerDiasUltimasJornadasRegistradas()
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoJornadaQueries(database);
             const int NumeroMaximoDias = 1;
 
-            var ultimaJornada = sut.ObtenerDiasUltimasJornadasRegistradas(Usuario, NumeroMaximoDias);
+            var ultimaJornada = sut.ObtenerDiasUltimasJornadasRegistradas(DatabaseHelper.Usuario, NumeroMaximoDias);
 
             ultimaJornada.Should().HaveCount(1);
         }
@@ -62,11 +65,11 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
         [Fact]
         public void ExisteJornadaTrue()
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoJornadaQueries(database);
-            var fecha = new DateTime(2013, 2, 16);
+            var fecha = DateTime.Today.AddDays(-1);
 
-            var ultimaJornada = sut.ExisteJornada(Usuario, fecha);
+            var ultimaJornada = sut.ExisteJornada(DatabaseHelper.Usuario, fecha);
 
             ultimaJornada.Should().BeTrue();
         }
@@ -74,11 +77,11 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
         [Fact]
         public void ExisteJornadaFalse()
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoJornadaQueries(database);
-            var fecha = new DateTime(2013, 1, 1);
+            var fecha = DateTime.Today;
 
-            var ultimaJornada = sut.ExisteJornada(Usuario, fecha);
+            var ultimaJornada = sut.ExisteJornada(DatabaseHelper.Usuario, fecha);
 
             ultimaJornada.Should().BeFalse();
         }
@@ -86,28 +89,28 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
         [Fact]
         public void ObtenerResumenEntreFechas()
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoJornadaQueries(database);
-            var inicio = new DateTime(2013, 2, 1);
-            var fin = new DateTime(2013, 2, 20);
+            var inicio = DateTime.Today.AddDays(-1);
+            var fin = DateTime.Today.AddDays(-1);
 
-            var infoJornadas = sut.ObtenerResumenEntreFechas(Usuario, inicio, fin).ToArray();
+            var infoJornadas = sut.ObtenerResumenEntreFechas(DatabaseHelper.Usuario, inicio, fin).ToArray();
 
-            infoJornadas.Should().HaveCount(2);
+            infoJornadas.Should().HaveCount(1);
         }
 
         [Fact]
         public void ObtenerInformacionJornadasEntreFechas()
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoJornadaQueries(database);
-            var inicio = new DateTime(2013, 2, 1);
-            var fin = new DateTime(2013, 2, 20);
+            var inicio = DateTime.Today.AddDays(-19);
+            var fin = DateTime.Today;
 
-            var infoJornadas = sut.ObtenerInformacionJornadasEntreFechas(Usuario, inicio, fin).ToArray();
+            var infoJornadas = sut.ObtenerInformacionJornadasEntreFechas(DatabaseHelper.Usuario, inicio, fin).ToArray();
 
             infoJornadas.Should().HaveCount(20);
-            infoJornadas.Where(ij => ij.Existe).Should().HaveCount(2);
+            infoJornadas.Where(ij => ij.Existe).Should().HaveCount(DatabaseHelper.NumeroDiasCreados);
         }
     }
 }

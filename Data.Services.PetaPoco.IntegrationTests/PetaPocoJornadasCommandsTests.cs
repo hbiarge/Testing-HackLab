@@ -25,16 +25,19 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
 
     public class PetaPocoJornadasCommandsTests
     {
-        private const string Usuario = "Prueba";
+        public PetaPocoJornadasCommandsTests()
+        {
+            DatabaseHelper.RestartTestDatabase();
+        }
 
         [Theory, AutoData]
         public void CrearJornada(
             [Greedy]Jornada jornada)
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoJornadaCommands(database);
 
-            sut.CrearJornada(jornada, Usuario);
+            sut.CrearJornada(jornada, DatabaseHelper.Usuario);
 
             var jornadaDbRow = database.FirstOrDefault<JornadaDbRow>(
                 "Select * from Jornadas where IdJornada = @0", jornada.Id);
@@ -49,10 +52,10 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
         public void ActualizarJornada(
             [Greedy]Jornada jornada)
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoJornadaCommands(database);
 
-            sut.CrearJornada(jornada, Usuario);
+            sut.CrearJornada(jornada, DatabaseHelper.Usuario);
 
             var jornadaDbRow = database.FirstOrDefault<JornadaDbRow>(
                 "Select * from Jornadas where IdJornada = @0", jornada.Id);
@@ -68,7 +71,7 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
                 jornada.Pausas.Skip(1).Union(new[] { nuevaPausa }).ToArray());
             jornada.Id = idJornada;
 
-            sut.ActualizarJornada(jornada, Usuario);
+            sut.ActualizarJornada(jornada, DatabaseHelper.Usuario);
 
             jornadaDbRow = database.FirstOrDefault<JornadaDbRow>(
                 "Select * from Jornadas where IdJornada = @0", jornada.Id);
@@ -83,10 +86,10 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
         public void EliminarJornada(
             [Greedy]Jornada jornada)
         {
-            var database = new Database("Presencia");
+            var database = new Database(DatabaseHelper.Database);
             var sut = new PetaPocoJornadaCommands(database);
 
-            sut.CrearJornada(jornada, Usuario);
+            sut.CrearJornada(jornada, DatabaseHelper.Usuario);
 
             var jornadaDbRow = database.FirstOrDefault<JornadaDbRow>(
                 "SELECT * FROM Jornadas WHERE IdJornada = @0", jornada.Id);
