@@ -5,14 +5,14 @@
     <p>Iniciada el @Model.Jornada.Inicio.ToString("dddd dd 'de' MMMM  'del' yyyy 'a las' HH:mm")</p>
     @using (Html.BeginForm("TerminarJornada", "Situacion", FormMethod.Post))
     {
-        <input class="btn btn-danger pull-right" type="submit" value="Terminar jornada" />
+        <input id="btnTerminarJornada" class="btn btn-danger pull-right" type="submit" value="Terminar jornada" />
         <div class="clearfix"></div>
     }
 </div>
 
 @using (Html.BeginForm("IniciarPausa", "Situacion", FormMethod.Post))
 {
-    <input class="btn btn-success" type="submit" value="Iniciar pausa" />
+    <input id="btnIniciarPausa" class="btn btn-success" type="submit" value="Iniciar pausa" />
 }
 
 @if (Model.Jornada.Pausas.Any())
