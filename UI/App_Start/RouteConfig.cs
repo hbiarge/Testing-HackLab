@@ -21,8 +21,7 @@ namespace Acheve.UI.App_Start
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Cuenta", action = "LogOn", id = UrlParameter.Optional },
-                namespaces: new string[] { "Acheve.UI.Controllers" });
+                defaults: new { controller = "Cuenta", action = "LogOn", id = UrlParameter.Optional });
         }
     }
 }

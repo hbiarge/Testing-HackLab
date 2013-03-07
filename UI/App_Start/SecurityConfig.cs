@@ -1,4 +1,13 @@
-﻿namespace Acheve.UI.App_Start
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SecurityConfig.cs" company="Acheve Solutions">
+//   Copyright (c) Hugo Biarge. Todos los derechos reservados.
+// </copyright>
+// <summary>
+//   Defines the SecurityConfig type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Acheve.UI.App_Start
 {
     using System.Web;
     using System.Web.Mvc;

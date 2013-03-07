@@ -26,25 +26,7 @@ namespace Acheve.UI.UnitTests.Routes
         }
 
         [Fact]
-        public void Actual_I()
-        {
-            RouteTestHelpers.AssertRoute(
-                this.routes,
-                "~/",
-                new { controller = "Situacion", action = "Actual" });
-        }
-
-        [Fact]
-        public void Actual_II()
-        {
-            RouteTestHelpers.AssertRoute(
-                this.routes,
-                "~/Situacion",
-                new { controller = "Situacion", action = "Actual" });
-        }
-
-        [Fact]
-        public void Actual_III()
+        public void Actual()
         {
             RouteTestHelpers.AssertRoute(
                 this.routes,

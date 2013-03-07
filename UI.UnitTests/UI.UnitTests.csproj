@@ -118,6 +118,7 @@
     <Compile Include="Controllers\SituacionControllerTests.cs" />
     <Compile Include="Infrastructure\LocaleDateTimeBinderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routes\DefaultRoutes.cs" />
     <Compile Include="Routes\InformeControllerRouteTests.cs" />
     <Compile Include="Routes\RouteTestHelpers.cs" />
     <Compile Include="Routes\SituacionControllerRouteTests.cs" />

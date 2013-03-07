@@ -32,6 +32,7 @@ namespace Acheve.UI.App_Start
             container.RegisterType<IPolicyViolationHandler, RequireRolePolicyViolationHandler>("RequireRole");
 
             IoC.Configure(container);
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             ServiceLocator.SetLocatorProvider(() => new UnityServiceLocator(container));
 
