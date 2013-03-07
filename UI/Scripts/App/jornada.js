@@ -4,6 +4,16 @@
 
 var my = my || {};
 
+my.attachDatetimepicker = function () {
+    $('.datetime:not(.hasDatepicker)').datetimepicker({
+        timeText: 'Hora',
+        hourText: 'Horas',
+        minuteText: 'Minutos',
+        currentText: 'Ahora',
+        closeText: 'Hecho',
+    });
+};
+
 my.Pausa = function (original) {
     var self = this;
     self.id = original.id;
@@ -29,13 +39,7 @@ my.JornadaModel = function (original) {
             inicio: self.dia,
             fin: self.dia
         }));
-        $('.datetime:not(.hasDatepicker)').datetimepicker({
-            timeText: 'Hora',
-            hourText: 'Horas',
-            minuteText: 'Minutos',
-            currentText: 'Ahora',
-            closeText: 'Hecho',
-        });
+        my.attachDatetimepicker();
     };
     self.removePausa = function (pausa) {
         self.pausas.remove(pausa);

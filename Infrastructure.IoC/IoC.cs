@@ -18,6 +18,7 @@ namespace Acheve.Infrastructure.IoC
         public static void Configure(IUnityContainer container)
         {
             container.AddNewExtension<DataExtensions>();
+            container.AddNewExtension<InfrastructureExtensions>();
             container.AddNewExtension<ServicesExtensions>();
         }
     }

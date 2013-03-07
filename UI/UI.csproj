@@ -268,6 +268,9 @@
     <Content Include="Scripts\App\common.menu.js" />
     <Content Include="Scripts\App\index.js" />
     <Content Include="Scripts\App\jornada.js" />
+    <Content Include="Scripts\App\Test\Jasmine\jasmine.js" />
+    <Content Include="Scripts\App\Test\Jasmine\json2.js" />
+    <Content Include="Scripts\App\Test\Specs\jornadaSpec.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
