@@ -63,7 +63,7 @@ namespace Acheve.UI.Areas.Admin.Controllers
                 var jornada = jornadaViewModel.ToJornada();
                 this.jornadaCommands.ActualizarJornada(jornada, jornadaViewModel.Usuario);
 
-                return this.Json(new { hasError = false, location = this.Url.Action("Editar", "Jornada", new { usuario = jornadaViewModel.Usuario, fecha = jornadaViewModel.Dia.ToShortDateString() }) });
+                return this.Json(new { hasError = false, location = this.Url.Action("Index", "Buscar", new { usuario = jornadaViewModel.Usuario, fecha = jornadaViewModel.Dia.ToShortDateString() }) });
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@ namespace Acheve.UI.Areas.Admin.Controllers
             {
                 var jornada = jornadaViewModel.ToJornada();
                 this.jornadaCommands.CrearJornada(jornada, jornadaViewModel.Usuario);
-                return this.Json(new { hasError = false, location = this.Url.Action("Crear", "Jornada", new { usuario = jornadaViewModel.Usuario, fecha = jornadaViewModel.Dia.ToShortDateString() }) });
+                return this.Json(new { hasError = false, location = this.Url.Action("Index", "Buscar", new { usuario = jornadaViewModel.Usuario, fecha = jornadaViewModel.Dia.ToShortDateString() }) });
             }
             catch (Exception ex)
             {
