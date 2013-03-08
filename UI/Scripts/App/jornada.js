@@ -1,6 +1,5 @@
 ﻿/// <reference path="../jquery-1.9.1.js" />
 /// <reference path="../knockout-2.2.1.js" />
-/// <reference path="../jquery-ui-timepicker-addon.js" />
 
 var my = my || {};
 
@@ -56,17 +55,3 @@ my.JornadaModel = function (original) {
         });
     };
 };
-
-$(document).ready(function () {
-
-    ko.applyBindings(new my.JornadaModel(my.data.viewModel));
-
-    $('.datetime').datetimepicker({
-        timeText: 'Hora',
-        hourText: 'Horas',
-        minuteText: 'Minutos',
-        currentText: 'Ahora',
-        closeText: 'Hecho',
-    });
-
-});

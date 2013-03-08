@@ -1,7 +1,6 @@
 ﻿/// <reference path="../Jasmine/jasmine.js" />
 /// <reference path="../../jornada.js" />
 /// <reference path="../../../knockout-2.2.1.js" />
-/// <reference path="../../../jquery-ui-timepicker-addon.js" />
 
 describe("Una Pausa", function () {
 

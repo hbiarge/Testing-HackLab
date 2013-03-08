@@ -105,6 +105,20 @@
 
         my.data.viewModel = @(Html.Raw(JsonConvert.SerializeObject(this.Model, JsonSettings.FormattingSettings)));
 
+        $(document).ready(function () {
+
+            ko.applyBindings(new my.JornadaModel(my.data.viewModel));
+
+            $('.datetime').datetimepicker({
+                timeText: 'Hora',
+                hourText: 'Horas',
+                minuteText: 'Minutos',
+                currentText: 'Ahora',
+                closeText: 'Hecho',
+            });
+
+        });
+
     </script>
 
     <script src="~/Scripts/App/jornada.js"></script>
