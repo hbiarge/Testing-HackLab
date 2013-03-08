@@ -17,6 +17,7 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
     {
         public const string Database = "Presencia";
         public const string Usuario = "Prueba";
+        public const string Rol = "JEFE";
         public const int NumeroDiasCreados = 3;
 
         public static void RestartTestDatabase()
@@ -27,6 +28,14 @@ namespace Acheve.Data.Services.PetaPoco.IntegrationTests
             {
                 database.Execute("DELETE FROM Pausas;");
                 database.Execute("DELETE FROM Jornadas;");
+                database.Execute("DELETE FROM UsuariosRoles;");
+                database.Execute("DELETE FROM Roles;");
+                database.Execute("DELETE FROM Usuarios;");
+
+                // Añadir usuarios y roles
+                database.Execute("INSERT INTO Usuarios ([Usuario], [Password]) VALUES (@0, @1)", Usuario, "Prueba");
+                database.Execute("INSERT INTO Roles ([Name]) VALUES (@0)", Rol);
+                database.Execute("INSERT INTO UsuariosRoles ([Usuario], [Rol]) VALUES (@0, @1)", Usuario, Rol);
 
                 // Añadir jornadas terminadas anteriores al día actual
                 var dia = DateTime.Today.AddDays(-NumeroDiasCreados);
